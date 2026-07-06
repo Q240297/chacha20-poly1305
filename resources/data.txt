@@ -1,0 +1,13 @@
+nevermind.png
+IMPORTANT - Conservez ces informations : elles sont indispensables pour déchiffrer l'image :
+Clé générée : 1a0d2fc8d9c75c0c4f5a975619d4dc285e00b9cb97b1f5ea2119a061133bde16
+Nonce: 9dcb6433e9cbd838d2addc7a
+Aad: coucouNevermind
+Tag: e70a42c2dde4e827e74eb00a6a9f8392
+--------------------------------------------------------------------------------
+snmp.png
+IMPORTANT - Conservez ces informations : elles sont indispensables pour déchiffrer l'image :
+Clé générée : 50af03bee500798d9bb094e5d5a7a2f2791ea56be0241ab59d319b6d99f6e1d0
+Nonce: 40b0109b1ad75b3e0b365d9c
+Aad: tennis de table
+Tag: 3c4b51b7984c3d491f1bb50d4d526312

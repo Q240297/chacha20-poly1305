@@ -3,6 +3,15 @@
 
 import os
 import time
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger(__name__)
 
 from picture import encrypt_image, decrypt_image
 
@@ -15,10 +24,13 @@ def clean_old_files():
     """
     Supprime tous les fichiers présents dans les dossiers Encrypted et Decrypted
     """
-    for dirpath, dirnames, filenames in os.walk('resources\\Encrypted'):
+    encrypted_dir = os.path.join('resources', 'Encrypted')
+    decrypted_dir = os.path.join('resources', 'Decrypted')
+    
+    for dirpath, dirnames, filenames in os.walk(encrypted_dir):
         for filename in filenames:
             os.remove(os.path.join(dirpath, filename))
-    for dirpath, dirnames, filenames in os.walk('resources\\Decrypted'):
+    for dirpath, dirnames, filenames in os.walk(decrypted_dir):
         for filename in filenames:
             os.remove(os.path.join(dirpath, filename))
 
@@ -31,15 +43,15 @@ def effacer_fichiers():
     if rep == 'n':
         return
     else:
-        print("\nEffacement des fichiers en cours...")
+        logger.info("Effacement des fichiers en cours...")
         try:
             clean_old_files()
-            print("Les fichiers ont été effacés avec succès.")
+            logger.info("Les fichiers ont été effacés avec succès.")
             print("Pour voir les changements dans l'arborescence des répertoires PyCharm, "
                   "appuyez sur Ctrl+Alt+Y (Windows/Linux) ou Cmd+Alt+Y (Mac)")
             time.sleep(3)
         except Exception as e:
-            print(f"Erreur lors de l'effacement : {e}")
+            logger.error(f"Erreur lors de l'effacement : {e}")
 
 
 def choisir_fichier_dans_dossier(dossier):
@@ -86,20 +98,20 @@ def chiffrer_image():
     Chiffre une image sélectionnée par l'utilisateur.
     """
     # Choisir fichier image à chiffrer
-    dossier = "resources\\Images"
+    dossier = os.path.join("resources", "Images")
     fichier_selectionne = choisir_fichier_dans_dossier(dossier)
     if fichier_selectionne is None:
         return
 
     # Chiffrement
-    print(f"\nChiffrement de l'image '{fichier_selectionne}' ...")
+    logger.info(f"Chiffrement de l'image '{fichier_selectionne}' ...")
     try:
         encrypt_image(os.path.join(dossier, fichier_selectionne))
-        print(f"\nL'image '{fichier_selectionne}' a été chiffrée avec succès !")
+        logger.info(f"L'image '{fichier_selectionne}' a été chiffrée avec succès !")
         print("   Pour voir le fichier dans PyCharm : Ctrl+Alt+Y (Windows/Linux) ou Cmd+Alt+Y (Mac)")
         time.sleep(3)
     except Exception as e:
-        print(f"Erreur lors du chiffrement : {e}")
+        logger.error(f"Erreur lors du chiffrement : {e}")
 
 
 def dechiffrer_image():
@@ -107,21 +119,21 @@ def dechiffrer_image():
     Déchiffrer une image sélectionnée par l'utilisateur.
     """
     # Choisir fichier image à déchiffrer
-    dossier = "resources\\Encrypted"
+    dossier = os.path.join("resources", "Encrypted")
     fichier_selectionne = choisir_fichier_dans_dossier(dossier)
     if fichier_selectionne is None:
         return
 
     # Déchiffrement
-    print(f"\nDéchiffrement de l'image '{fichier_selectionne}' ...")
+    logger.info(f"Déchiffrement de l'image '{fichier_selectionne}' ...")
     try:
         decrypt_image(os.path.join(dossier, fichier_selectionne))
-        print(f"\nL'image '{fichier_selectionne}' a été déchiffrée avec succès !")
+        logger.info(f"L'image '{fichier_selectionne}' a été déchiffrée avec succès !")
         print("   Pour voir le fichier dans PyCharm : Ctrl+Alt+Y (Windows/Linux) ou Cmd+Alt+Y (Mac)")
         time.sleep(3)
     except Exception as e:
-        print(f"Erreur lors du déchiffrement : {e}")
-        print("Vérifiez que la clé et le tag sont corrects.")
+        logger.error(f"Erreur lors du déchiffrement : {e}")
+        logger.error("Vérifiez que la clé et le tag sont corrects.")
 
 
 def afficher_menu_court():

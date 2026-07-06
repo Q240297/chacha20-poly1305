@@ -10,6 +10,14 @@ from aead_chacha20_poly1305 import aead_chacha20_poly1305_encrypt, aead_chacha20
 
 
 def image_from_file_to_bytes(path):
+    """
+    Convertit une image d'un fichier en bytes.
+    Ouvre l'image depuis le chemin spécifié, la convertit en array NumPy,
+    et retourne les données brutes sous forme de bytes avec la forme de l'image.
+    
+    :param path: Chemin du fichier image à convertir
+    :return: Tuple (bytes_data, image_shape) contenant les données brutes et les dimensions
+    """
     image = Image.open(path)
     # summarize some details about the image
     # print(image.format)
@@ -30,11 +38,29 @@ def image_from_file_to_bytes(path):
 
 
 def image_from_bytes_to_file(img_bytes, img_shape, path):
+    """
+    Reconstruit une image à partir de bytes et la sauvegarde dans un fichier.
+    Convertit les données brutes en array NumPy avec la forme spécifiée,
+    puis crée une image PIL et la sauvegarde au chemin indiqué.
+    
+    :param img_bytes: Les données brutes de l'image sous forme de bytes
+    :param img_shape: La forme/dimensions de l'image (tuple: height, width, channels)
+    :param path: Chemin du fichier où sauvegarder l'image
+    :return: None
+    """
     numpy_cipher_data = np.reshape(np.frombuffer(img_bytes, dtype=np.uint8), newshape=img_shape)
     Image.fromarray(numpy_cipher_data).save(path)
 
 
 def bytes_to_block128(data_bytes):
+    """
+    Divise les données en blocs de 128 bits (16 bytes).
+    Chaque byte est placé dans un bloc de 128 bits, et quand le bloc est plein,
+    il est ajouté à la liste des blocs.
+    
+    :param data_bytes: Les données brutes sous forme de bytes
+    :return: Liste de blocs de 128 bits (entiers)
+    """
     blocks = []
     i = 15
     block = 0
@@ -50,6 +76,13 @@ def bytes_to_block128(data_bytes):
 
 
 def block128_to_bytes(blocks):
+    """
+    Reconvertit les blocs de 128 bits en données brutes (bytes).
+    Prend une liste de blocs (entiers de 128 bits) et les convertit en bytes.
+    
+    :param blocks: Liste de blocs de 128 bits (entiers)
+    :return: Données brutes sous forme de bytes
+    """
     data_bytes = bytes()
     for block in blocks:
         data_bytes += block.to_bytes(16)

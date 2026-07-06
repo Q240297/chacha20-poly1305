@@ -69,9 +69,13 @@ This implementation is suitable for education, research, and understanding moder
 No external dependencies required (pure Python 3.8+).
 
 ```bash
-git clone https://github.com/yourusername/chacha20-poly1305.git
+# Clone the repository
+git clone https://github.com/Q240297/chacha20-poly1305.git
 cd chacha20-poly1305
-python3 -m pytest tests/
+
+# Run tests (requires pytest)
+pip install pytest --break-system-packages  # or: pip install pytest
+python3 -m pytest tests/ -v
 ```
 
 ### Basic Usage
